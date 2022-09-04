@@ -8,7 +8,6 @@ project(feature_pkg)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  cv_bridge
   roscpp
 )
 
@@ -104,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES feature_pkg
-#  CATKIN_DEPENDS cv_bridge roscpp
+#  CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )
 
