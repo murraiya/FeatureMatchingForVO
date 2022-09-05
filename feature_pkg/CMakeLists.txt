@@ -10,6 +10,9 @@ project(feature_pkg)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   cv_bridge
+  sensor_msgs
+  std_msgs
+  image_transport
 )
 
 ## System dependencies are found with CMake's conventions
@@ -102,9 +105,8 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
- INCLUDE_DIRS include
- LIBRARIES feature_pkg
- CATKIN_DEPENDS roscpp
+#  LIBRARIES feature_pkg
+ CATKIN_DEPENDS roscpp std_msgs cv_bridge image_transport
  DEPENDS system_lib
 )
 
@@ -115,16 +117,23 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  # include
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   
 )
 
 
+# add_library(videoLoad src/videoLoad.cpp)  #(new_lib_file_name/cpp_file_path)
+# target_link_libraries(videoLoad ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}) #(new_lib_file_name/need to link include)
 
-add_executable(loadVideo src/videoLoad.cpp)
-target_link_libraries(loadVideo ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(videoLoad src/videoLoad.cpp)
+target_link_libraries(videoLoad ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}) #(new_lib_file_name/need to link include)
+
+
+add_executable(videoSubVisual src/videoSubVisual.cpp)
+target_link_libraries(videoSubVisual ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 
 ## Declare a C++ library
