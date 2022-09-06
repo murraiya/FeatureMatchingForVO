@@ -39,12 +39,12 @@ cv::Ptr<cv::DescriptorMatcher> Matcher_BRISK = cv::BFMatcher::create(cv::NORM_HA
 // cv::Ptr<cv::DescriptorMatcher> Matcher_SIFT = cv::BFMatcher::create(cv::NORM_L2);			// Brute-Force matcher create method
 
 vector<cv::DMatch> matches;	// Class for matching keypoint descriptors.
-
+int cnt = 0;
 void processing(cv::Mat&);
 
 
 void ImgSubCallback(const sensor_msgs::Image raw_img){
-    // cout<<"img_sub"<<endl;
+    //cout<<"img_sub"<<endl;
     cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(raw_img, sensor_msgs::image_encodings::BGR8);
     //cout<<cv_ptr->image.type()<<endl;
     processing(cv_ptr->image);
@@ -57,12 +57,14 @@ void processing(cv::Mat& frame){
     
     if(frame.empty())
         cout<<"NO IMG NO IMG NO IMG"<<endl;
+
     imshow("Video", frame);		// 현재 웹캠을 통해 실시간으로 받고 있는 영상을 보여주기
-
     int key = cv::waitKey(1);
+    cout<<"key : "<<key<<endl;
+    cnt++;
 
-
-    if ((key == 82) || (key == 114)) // 녹화 버튼(R 또는 r)을 눌렀을 때
+    if(cnt == 10)
+    //if ((key == 82) || (key == 114)) // 녹화 버튼(R 또는 r)을 눌렀을 때
     {
         cout << "References image으로 선택됩니다.\n\n";
         Refer_image = frame; // 눌렀을 때의 해당 프레임을 Reference frame으로 선택
@@ -78,18 +80,20 @@ void processing(cv::Mat& frame){
 
     // O or o : ORB , B or b : BRISK, S or s : SIFT를 선택할 수 있도록 설정하기
 
-    //if ((key == 84) || (key == 116)) // Target Image(T 또는 t)을 눌렀을 때
-        if ((key == 82) || (key == 114)) // 녹화 버튼(R 또는 r)을 눌렀을 때
+    if ((key == 84) || (key == 116)) // Target Image(T 또는 t)을 눌렀을 때
     {
-        cout << "References image으로 선택됩니다.\n\n";
-        Refer_image = frame; // 눌렀을 때의 해당 프레임을 Reference frame으로 선택
-        cv::cvtColor(Refer_image, Refer_gray_image, cv::COLOR_RGB2GRAY);
+        cout << "Target image으로 선택됩니다.\n\n";
+        Target_image = frame; // 눌렀을 때의 해당 프레임을 Reference frame으로 선택
+        cv::cvtColor(Target_image, Target_gray_image, cv::COLOR_RGB2GRAY);
 
-        imshow("Reference Image", Refer_image);			// References image 보여주기
-        imshow("Reference Gray Image", Refer_gray_image);
+        imshow("Target Image", Target_image);			// References image 보여주기
+        imshow("Target Gray Image", Target_gray_image);
     }
-    if((key == 79) || (key == 111))	// ORB를 이용, Target image 선정
+
+    if(cnt == 20)
+    //if((key == 79) || (key == 111))	// ORB를 이용, Target image 선정
     {
+        cout<<"11111111111111111111111111111111111"<<endl;
         // References image에 대해 feature 뽑기
         orb->detectAndCompute(Refer_gray_image, cv::Mat(), ReferenceKeypoints, ReferDescriptor);// detects keypoints and computes the descriptors
 
@@ -104,8 +108,12 @@ void processing(cv::Mat& frame){
         imshow("Target Image", Target_image);	// Target image 보여주기
         imshow("Target Gray Image", Target_gray_image);
 
+        cout<<"222222222222222222222222222222222222222"<<endl;
+
         // Target image에 대해 feature 뽑기
         orb->detectAndCompute(Target_gray_image, cv::Mat(), TargetKeypoints, TargetDescriptor);// detects keypoints and computes the descriptors
+
+        cout<<"3333333333333333333333333333333333333"<<endl;
 
         // Refer image와 Target image의 fature를 이용하여 Feature matching 실행
         Matcher_ORB->match(TargetDescriptor, ReferDescriptor, matches);	// Find the best match for each descriptor from a query set.
@@ -119,6 +127,7 @@ void processing(cv::Mat& frame){
         // Draws the found matches of keypoints from two images.
 
         imshow("Matching Result_ORB", Result);
+        cv::waitKey(0);
     }
     else if ((key == 66) || (key == 98))	// BRISK를 이용, Target image 선정
     {
