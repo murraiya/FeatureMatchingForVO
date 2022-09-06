@@ -107,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  LIBRARIES feature_pkg
  CATKIN_DEPENDS roscpp std_msgs cv_bridge image_transport
- DEPENDS system_lib
+# DEPENDS system_lib
 )
 
 ###########
@@ -132,8 +132,12 @@ add_executable(videoLoad src/videoLoad.cpp)
 target_link_libraries(videoLoad ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}) #(new_lib_file_name/need to link include)
 
 
-add_executable(videoSubVisual src/videoSubVisual.cpp)
-target_link_libraries(videoSubVisual ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+# add_executable(videoSubVisual src/videoSubVisual.cpp)
+# target_link_libraries(videoSubVisual ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+
+add_executable(processing src/processing.cpp)
+target_link_libraries(processing ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 
 ## Declare a C++ library
