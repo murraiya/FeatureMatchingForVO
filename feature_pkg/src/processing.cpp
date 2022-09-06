@@ -15,7 +15,7 @@
 #include <iostream>
 #include <iomanip>
 #include <opencv2/features2d.hpp>
-// #include <opencv2/xfeatures2d.hpp>
+#include <opencv2/xfeatures2d.hpp>
 
 
 using namespace std;
@@ -44,11 +44,8 @@ void processing(cv::Mat&);
 
 
 void ImgSubCallback(const sensor_msgs::Image raw_img){
-    //cout<<"img_sub"<<endl;
     cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(raw_img, sensor_msgs::image_encodings::BGR8);
-    //cout<<cv_ptr->image.type()<<endl;
     processing(cv_ptr->image);
-    //cout<<cv_ptr->image<<endl;
 }
 
 
@@ -93,7 +90,7 @@ void processing(cv::Mat& frame){
     if(cnt == 20)
     //if((key == 79) || (key == 111))	// ORB를 이용, Target image 선정
     {
-        cout<<"11111111111111111111111111111111111"<<endl;
+       
         // References image에 대해 feature 뽑기
         orb->detectAndCompute(Refer_gray_image, cv::Mat(), ReferenceKeypoints, ReferDescriptor);// detects keypoints and computes the descriptors
 
@@ -108,12 +105,12 @@ void processing(cv::Mat& frame){
         imshow("Target Image", Target_image);	// Target image 보여주기
         imshow("Target Gray Image", Target_gray_image);
 
-        cout<<"222222222222222222222222222222222222222"<<endl;
+        
 
         // Target image에 대해 feature 뽑기
         orb->detectAndCompute(Target_gray_image, cv::Mat(), TargetKeypoints, TargetDescriptor);// detects keypoints and computes the descriptors
 
-        cout<<"3333333333333333333333333333333333333"<<endl;
+     
 
         // Refer image와 Target image의 fature를 이용하여 Feature matching 실행
         Matcher_ORB->match(TargetDescriptor, ReferDescriptor, matches);	// Find the best match for each descriptor from a query set.
@@ -133,7 +130,7 @@ void processing(cv::Mat& frame){
     {
         brisk->detectAndCompute(Refer_gray_image, cv::Mat(), ReferenceKeypoints, ReferDescriptor);
 
-        cout << "BRISK를 선택하셨습니다. 해당 이미지를 Target image으로 선택합니다.\n\n";
+        cout << "BRISK를 선택하셨습니다. 해당 이미지를 Target image으로 선택합니다.\n";
         Target_image = frame; // 눌렀을 때의 해당 프레임을 Target image으로 선택
         cv::cvtColor(Target_image, Target_gray_image, cv::COLOR_RGB2GRAY);
         imshow("Target Image", Target_image);	// Target image 보여주기
@@ -183,7 +180,7 @@ int main(int argc, char** argv) {
 
 
 
-    ros::init(argc, argv, "videoSubVisualNode");
+    ros::init(argc, argv, "processingNode");
     ros::NodeHandle nh;
     
     ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 1, ImgSubCallback);
