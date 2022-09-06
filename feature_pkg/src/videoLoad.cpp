@@ -14,16 +14,17 @@ using namespace std;
 
 Mat img;
 
-sensor_msgs::Image loadVideo(){
+int main(int argc, char** argv) {
+
+    ros::init(argc, argv, "videoLoadNode");
+    ros::NodeHandle nh;
+	ros::Publisher raw_image_pub = nh.advertise<sensor_msgs::Image>("/raw_image", 1);
 
 	VideoCapture cap("/media/autonav/SJ_SSD/forFeatureMatching.avi");
 	if (!cap.isOpened())
-	{
-		printf("Can't open the camera");
-	}
+		{ printf("Can't open the camera"); }
 
-	while(1){
-
+    while(ros::ok()){ //ctrl-c interrupt
 
 		cap >> img;
 		
@@ -32,11 +33,7 @@ sensor_msgs::Image loadVideo(){
 			printf("empty image");
 		}
 
-		 cout<<"after_pub"<<endl;
-
 		sensor_msgs::Image ros_img_msg;
-
-		cout<<img.empty()<<endl;
 		
 		std_msgs::Header header; // empty header
 		header.seq = 1; // user defined counter
@@ -45,23 +42,7 @@ sensor_msgs::Image loadVideo(){
 		cv_bridge::CvImage cvImg = cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, img);
 		cvImg.toImageMsg(ros_img_msg);
         
-		return ros_img_msg;
-		
-    
-	}
-
-}
-
-
-
-int main(int argc, char** argv) {
-
-    ros::init(argc, argv, "videoLoadNode");
-    ros::NodeHandle nh;
-	ros::Publisher raw_image_pub = nh.advertise<sensor_msgs::Image>("/raw_image", 10);
-
-    while(ros::ok()){
-		raw_image_pub.publish(loadVideo());
+		raw_image_pub.publish(ros_img_msg);
 	}
     return 0;
 }
