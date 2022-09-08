@@ -59,7 +59,7 @@ void processing(cv::Mat& frame){
     // cout<<"key : "<<key<<endl;
     cout<<"frame: "<< cnt++ <<endl;
 
-    if(cnt == 4700)
+    if(cnt)
     {
         cout << "References image으로 선택됩니다.\n\n";
         Refer_image = frame; // 눌렀을 때의 해당 프레임을 Reference frame으로 선택
@@ -69,7 +69,7 @@ void processing(cv::Mat& frame){
         // imshow("Reference Gray Image", Refer_gray_image);
     }
 
-    if(cnt == 4750)
+    if(++cnt)
     // SIFT를 이용, Target image 선정
     {
         sift->detectAndCompute(Refer_gray_image, cv::Mat(), ReferenceKeypoints, ReferDescriptor);
@@ -127,9 +127,9 @@ void processing(cv::Mat& frame){
         // Draws the found matches of keypoints from two images.
 
         imshow("Result_SIFT", Result_SIFT);
-        imwrite("/home/autonav/feature_ws/Matching_SIFT.jpg", Result_SIFT);
+        // imwrite("/home/autonav/feature_ws/Matching_SIFT.jpg", Result_SIFT);
 
-        cv::waitKey(0);
+        cv::waitKey(1);
 
     }
 }

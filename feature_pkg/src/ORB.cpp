@@ -106,10 +106,10 @@ void processing(cv::Mat& frame){
         // Draws the found matches of keypoints from two images.
        
 
-        imshow("Result_ORB", Result_ORB);
-        imwrite("/home/autonav/feature_ws/Matching_ORB.jpg", Result_ORB);
+        // imshow("Result_ORB", Result_ORB);
+        // imwrite("/home/autonav/feature_ws/Matching_ORB.jpg", Result_ORB);
 
-        cv::waitKey(0);
+        cv::waitKey(1);
     }
 }
 
