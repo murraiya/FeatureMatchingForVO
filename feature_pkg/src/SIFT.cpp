@@ -27,6 +27,8 @@ cv::Mat Refer_gray_image;
 cv::Mat Target_image;
 cv::Mat Target_gray_image;
 
+cv::VideoWriter videoWriter;
+
 vector<cv::KeyPoint> TargetKeypoints, ReferenceKeypoints;
 cv::Mat TargetDescriptor, ReferDescriptor;
 
@@ -91,9 +93,12 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, good_matches, Result_SIFT, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
         // Draws the found matches of keypoints from two images.
 
-        imshow("Result_SIFT", Result_SIFT);
+        // imshow("Result_SIFT", Result_SIFT);
         // imwrite("/home/autonav/feature_ws/Matching_SIFT.jpg", Result_SIFT);
         cv::waitKey(1);
+        videoWriter << Result_SIFT;
+
+        // cout<<Result_SIFT.size()<<endl;
     }
 
     Refer_gray_image=Target_gray_image.clone();
@@ -102,11 +107,15 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
 int main(int argc, char** argv) {
     cout<<"! SIFT !"<<endl;
 
+    videoWriter.open("/media/autonav/SJ_SSD/Matching_SIFT.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1);
+
     ros::init(argc, argv, "SIFT_feature_matching_node");
     ros::NodeHandle nh;
     
+
     ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 1, ImgSubCallback);
     
+
     if(ros::ok())
         ros::spin();
 
