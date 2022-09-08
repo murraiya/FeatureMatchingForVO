@@ -16,7 +16,7 @@ Mat img;
 
 int main(int argc, char** argv) {
 
-    ros::init(argc, argv, "videoLoadNode");
+    ros::init(argc, argv, "video_load_node");
     ros::NodeHandle nh;
 	ros::Publisher raw_image_pub = nh.advertise<sensor_msgs::Image>("/raw_image", 1);
 
