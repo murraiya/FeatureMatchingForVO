@@ -104,12 +104,13 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         }
 
         videoWriter << Result_SIFT;
+        good_matches.clear();
+
 
         // cout<<Result_SIFT.size()<<endl;
     }
 
     Refer_gray_image=Target_gray_image.clone();
-    good_matches.clear();
 }
 
 int main(int argc, char** argv) {
