@@ -109,6 +109,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
     }
 
     Refer_gray_image=Target_gray_image.clone();
+    good_matches.clear();
 }
 
 int main(int argc, char** argv) {
