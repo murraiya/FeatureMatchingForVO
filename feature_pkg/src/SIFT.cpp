@@ -95,7 +95,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
 
         // imshow("Result_SIFT", Result_SIFT);
         // imwrite("/home/autonav/feature_ws/Matching_SIFT.jpg", Result_SIFT);
-        cv::waitKey(1);
+        // cv::waitKey(1);
         videoWriter << Result_SIFT;
 
         // cout<<Result_SIFT.size()<<endl;

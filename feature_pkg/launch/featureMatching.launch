@@ -9,8 +9,8 @@
   </node>
 
 
-  <node pkg="feature_pkg" type="SIFT" name="SIFT_feature_matching_node" output="screen" >
-  </node>
+  <!-- <node pkg="feature_pkg" type="SIFT" name="SIFT_feature_matching_node" output="screen" >
+  </node> -->
 
 
 </launch>
