@@ -42,6 +42,8 @@ void processing(cv::Mat&);
 
 
 void ImgSubCallback(const sensor_msgs::Image raw_img){
+    cout<<"ORB: subscribed"<<endl;
+
     cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(raw_img, sensor_msgs::image_encodings::BGR8);
     
     if(cv_ptr->image.empty())
@@ -78,6 +80,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         // cv::waitKey(1);
 
         videoWriter << Result_ORB;
+        good_matches.clear();
 
     }
 

@@ -28,9 +28,9 @@ int main(int argc, char** argv) {
 
 		cap >> img;
 		
-		if (img.empty())
+		if (img.empty()==1)
 		{
-			printf("empty image");
+			cout<<"load finish"<<endl;
 		}
 
 		sensor_msgs::Image ros_img_msg;
