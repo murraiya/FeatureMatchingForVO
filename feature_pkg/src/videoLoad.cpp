@@ -16,9 +16,7 @@ Mat img;
 
 int main(int argc, char** argv) {
 
-	//just a git test
-
-    ros::init(argc, argv, "videoLoadNode");
+    ros::init(argc, argv, "video_load_node");
     ros::NodeHandle nh;
 	ros::Publisher raw_image_pub = nh.advertise<sensor_msgs::Image>("/raw_image", 1);
 
@@ -30,22 +28,28 @@ int main(int argc, char** argv) {
 
 		cap >> img;
 		
-		if (img.empty())
+		if (img.empty()==1)
 		{
-			printf("empty image");
+			cout<<"load finish"<<endl;
 		}
 
-		sensor_msgs::Image ros_img_msg;
-		
-		std_msgs::Header header; // empty header
-		header.seq = 1; // user defined counter
-		header.stamp = ros::Time::now(); // time
+		else{ //pub only when img is not empty, without this u get useless rosmsg
 
-		cv_bridge::CvImage cvImg = cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, img);
-		cvImg.toImageMsg(ros_img_msg);
-        
-		raw_image_pub.publish(ros_img_msg);
-		cout<<"published"<<endl;
+			sensor_msgs::Image ros_img_msg;
+		
+			std_msgs::Header header; // empty header
+			header.seq = 1; // user defined counter
+			header.stamp = ros::Time::now(); // time
+
+			cv_bridge::CvImage cvImg = cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, img);
+			cvImg.toImageMsg(ros_img_msg);
+			
+			raw_image_pub.publish(ros_img_msg);
+			cout<<"published"<<endl;
+
+		}
+
+		
 	}
     return 0;
 }

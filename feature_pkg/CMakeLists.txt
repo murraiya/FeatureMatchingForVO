@@ -140,8 +140,11 @@ target_link_libraries(videoLoad ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}) #(new_l
 # target_link_libraries(videoSubVisual ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 
-add_executable(processing src/processing.cpp)
-target_link_libraries(processing ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+add_executable(ORB src/ORB.cpp)
+target_link_libraries(ORB ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+
+add_executable(SIFT src/SIFT.cpp)
+target_link_libraries(SIFT ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 
 ## Declare a C++ library
