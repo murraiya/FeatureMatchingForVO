@@ -69,29 +69,29 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         Matcher_SIFT->match(TargetDescriptor, ReferDescriptor, matches);	// Find the best match for each descriptor from a query set.
         Matcher_SIFT->match(ReferDescriptor, TargetDescriptor, matches);
 
-        double max_dist = 0.0, min_dist = 100.0;
-        for (int i = 0; i < matches.size(); i++)
-        {
-            double dist = matches[i].distance;
-            if (dist < min_dist)
-                min_dist = dist;
-            if (dist > max_dist)
-                max_dist = dist;
-        }
+        // double max_dist = 0.0, min_dist = 100.0;
+        // for (int i = 0; i < matches.size(); i++)
+        // {
+        //     double dist = matches[i].distance;
+        //     if (dist < min_dist)
+        //         min_dist = dist;
+        //     if (dist > max_dist)
+        //         max_dist = dist;
+        // }
 
         // drawing only good matches (dist less than 2*min_dist)
-        vector<cv::DMatch> good_matches;
+        // vector<cv::DMatch> good_matches;
 
-        for (int i = 0; i < matches.size(); i++)
-        {
-            if (matches[i].distance <= 2 * min_dist)
-            {
-                good_matches.push_back(matches[i]);
-            }
-        }
+        // for (int i = 0; i < matches.size(); i++)
+        // {
+        //     if (matches[i].distance <= 2 * min_dist)
+        //     {
+        //         good_matches.push_back(matches[i]);
+        //     }
+        // }
 
         cv::Mat Result_SIFT;
-        cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, good_matches, Result_SIFT, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
+        cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, matches, Result_SIFT, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
         // Draws the found matches of keypoints from two images.
 
         // imshow("Result_SIFT", Result_SIFT);
@@ -104,7 +104,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         }
 
         videoWriter << Result_SIFT;
-        good_matches.clear();
+        // good_matches.clear();
 
     }
 
@@ -114,9 +114,9 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
 int main(int argc, char** argv) {
     cout<<"! SIFT !"<<endl;
 
-    videoWriter.open("/media/autonav/SJ_SSD/Matching_SIFT.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
+    videoWriter.open("/media/autonav/SJ_SSD/Matching_SIFT_raw.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
 
-    ros::init(argc, argv, "SIFT_feature_matching_node");
+    ros::init(argc, argv, "raw_SIFT_feature_matching_node");
     ros::NodeHandle nh;
     
 
