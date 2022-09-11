@@ -66,7 +66,6 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         // Refer image와 Target image의 fature를 이용하여 Feature matching 실행
 
         Matcher_SIFT->match(TargetDescriptor, ReferDescriptor, matches);	// Find the best match for each descriptor from a query set.
-        // Matcher_SIFT->match(ReferDescriptor, TargetDescriptor, matches);
 
         cv::Mat Result_SIFT;
         cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, matches, Result_SIFT, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);

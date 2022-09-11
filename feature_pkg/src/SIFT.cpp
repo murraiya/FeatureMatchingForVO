@@ -14,6 +14,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 #include <opencv2/features2d.hpp>
 #include <opencv2/xfeatures2d.hpp>
 
@@ -33,7 +34,7 @@ vector<cv::KeyPoint> TargetKeypoints, ReferenceKeypoints;
 cv::Mat TargetDescriptor, ReferDescriptor;
 
 cv::Ptr<cv::Feature2D> sift = cv::SIFT::create(500);
-cv::Ptr<cv::DescriptorMatcher> Matcher_SIFT = cv::BFMatcher::create(cv::NORM_L2);			// Brute-Force matcher create method
+cv::Ptr<cv::DescriptorMatcher> Matcher_SIFT = cv::BFMatcher::create(cv::NORM_L2, true);			// Brute-Force matcher create method
 
 vector<cv::DMatch> matches;	// Class for matching keypoint descriptors.
 int cnt = 0;
@@ -67,28 +68,12 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         // Refer image와 Target image의 fature를 이용하여 Feature matching 실행
 
         Matcher_SIFT->match(TargetDescriptor, ReferDescriptor, matches);	// Find the best match for each descriptor from a query set.
-        Matcher_SIFT->match(ReferDescriptor, TargetDescriptor, matches);
-
-        double max_dist = 0.0, min_dist = 100.0;
-        for (int i = 0; i < matches.size(); i++)
-        {
-            double dist = matches[i].distance;
-            if (dist < min_dist)
-                min_dist = dist;
-            if (dist > max_dist)
-                max_dist = dist;
-        }
+        // Matcher_SIFT->match(ReferDescriptor, TargetDescriptor, matches);
+        
+        sort(matches.begin(), matches.end());
 
         // drawing only good matches (dist less than 2*min_dist)
-        vector<cv::DMatch> good_matches;
-
-        for (int i = 0; i < matches.size(); i++)
-        {
-            if (matches[i].distance <= 2 * min_dist)
-            {
-                good_matches.push_back(matches[i]);
-            }
-        }
+        vector<cv::DMatch> good_matches(matches.begin(), matches.begin()+50);
 
         cv::Mat Result_SIFT;
         cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, good_matches, Result_SIFT, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
