@@ -9,7 +9,7 @@ int gettingH(const vector<cv::DMatch>& good_matches){
         afterFramePt.push_back( TargetKeypoints[ good_matches[i].trainIdx ].pt );
     }
     H = findHomography( beforeFramePt, afterFramePt, RANSAC );
-   
+    cv::recoverPose(E, points2, points1, R, t, 1400 , pp, mask);
 
     return 0;
 }
