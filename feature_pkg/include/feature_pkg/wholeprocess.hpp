@@ -22,10 +22,31 @@ using namespace std;
 
 
 cv::Mat H;
-std::vector<Point2f> obj;
-std::vector<Point2f> scene;
+std::vector<Point2f> beforeFramePt;
+std::vector<Point2f> afterFramePt;
 
-int gettingH();
+cv::Mat frame;
+cv::Mat Refer_image;
+cv::Mat Refer_gray_image;
+cv::Mat Target_image;
+cv::Mat Target_gray_image;
+
+cv::VideoWriter videoWriter;
+
+vector<cv::KeyPoint> TargetKeypoints, ReferenceKeypoints;
+cv::Mat TargetDescriptor, ReferDescriptor;
+
+cv::Ptr<cv::Feature2D> sift = cv::SIFT::create(100);
+cv::Ptr<cv::DescriptorMatcher> Matcher_SIFT = cv::BFMatcher::create(cv::NORM_L2, true);			// Brute-Force matcher create method
+
+cv::Ptr<cv::Feature2D> orb = cv::ORB::create(100);
+cv::Ptr<cv::DescriptorMatcher> Matcher_ORB = cv::BFMatcher::create(cv::NORM_HAMMING, true);			// Brute-Force matcher create method
+
+vector<cv::DMatch> matches;	// Class for matching keypoint descriptors.
+
+
+
+int gettingH(const vector<cv::DMatch>& good_matches);
 
 
 

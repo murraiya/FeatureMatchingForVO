@@ -23,23 +23,6 @@
 using namespace std;
 
 
-cv::Mat frame;
-cv::Mat Refer_image;
-cv::Mat Refer_gray_image;
-cv::Mat Target_image;
-cv::Mat Target_gray_image;
-
-cv::VideoWriter videoWriter;
-
-
-vector<cv::KeyPoint> TargetKeypoints, ReferenceKeypoints;
-cv::Mat TargetDescriptor, ReferDescriptor;
-
-cv::Ptr<cv::Feature2D> orb = cv::ORB::create(100);
-cv::Ptr<cv::DescriptorMatcher> Matcher_ORB = cv::BFMatcher::create(cv::NORM_HAMMING, true);			// Brute-Force matcher create method
-
-vector<cv::DMatch> matches;	// Class for matching keypoint descriptors.
-
 void ImgSubCallback(const sensor_msgs::Image raw_img){
     cout<<"ORB: subscribed"<<endl;
 
@@ -79,6 +62,12 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         if(Result_ORB.empty()==1){
         cout<<"match fail"<<endl;
         }
+
+
+        gettingH(good_matches);
+
+
+
         videoWriter << Result_ORB;
         good_matches.clear();
     }

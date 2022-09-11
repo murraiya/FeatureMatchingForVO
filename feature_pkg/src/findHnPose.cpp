@@ -1,14 +1,14 @@
 #include "wholeprocess.hpp"
 
 
-int gettingH(){
+int gettingH(const vector<cv::DMatch>& good_matches){
     for( size_t i = 0; i < good_matches.size(); i++ )
     {
         //-- Get the keypoints from the good matches
-        obj.push_back( keypoints_object[ good_matches[i].queryIdx ].pt );
-        scene.push_back( keypoints_scene[ good_matches[i].trainIdx ].pt );
+        beforeFramePt.push_back( ReferenceKeypoints[ good_matches[i].queryIdx ].pt );
+        afterFramePt.push_back( TargetKeypoints[ good_matches[i].trainIdx ].pt );
     }
-    H = findHomography( obj, scene, RANSAC );
+    H = findHomography( beforeFramePt, afterFramePt, RANSAC );
    
 
     return 0;
