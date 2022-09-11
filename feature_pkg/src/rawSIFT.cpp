@@ -32,12 +32,10 @@ cv::VideoWriter videoWriter;
 vector<cv::KeyPoint> TargetKeypoints, ReferenceKeypoints;
 cv::Mat TargetDescriptor, ReferDescriptor;
 
-cv::Ptr<cv::Feature2D> sift = cv::SIFT::create(500);
+cv::Ptr<cv::Feature2D> sift = cv::SIFT::create(50);
 cv::Ptr<cv::DescriptorMatcher> Matcher_SIFT = cv::BFMatcher::create(cv::NORM_L2);			// Brute-Force matcher create method
 
 vector<cv::DMatch> matches;	// Class for matching keypoint descriptors.
-int cnt = 0;
-
 
 void ImgSubCallback(const sensor_msgs::Image raw_img){
     cout<<"SIFT: subscribed"<<endl;
@@ -64,38 +62,17 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         cv::drawKeypoints(Target_gray_image, TargetKeypoints, sift_target_result);
         imshow("Result_sift_Target_result", sift_target_result);*/
 
+
         // Refer image와 Target image의 fature를 이용하여 Feature matching 실행
 
         Matcher_SIFT->match(TargetDescriptor, ReferDescriptor, matches);	// Find the best match for each descriptor from a query set.
-        Matcher_SIFT->match(ReferDescriptor, TargetDescriptor, matches);
-
-        // double max_dist = 0.0, min_dist = 100.0;
-        // for (int i = 0; i < matches.size(); i++)
-        // {
-        //     double dist = matches[i].distance;
-        //     if (dist < min_dist)
-        //         min_dist = dist;
-        //     if (dist > max_dist)
-        //         max_dist = dist;
-        // }
-
-        // drawing only good matches (dist less than 2*min_dist)
-        // vector<cv::DMatch> good_matches;
-
-        // for (int i = 0; i < matches.size(); i++)
-        // {
-        //     if (matches[i].distance <= 2 * min_dist)
-        //     {
-        //         good_matches.push_back(matches[i]);
-        //     }
-        // }
+        // Matcher_SIFT->match(ReferDescriptor, TargetDescriptor, matches);
 
         cv::Mat Result_SIFT;
         cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, matches, Result_SIFT, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
         // Draws the found matches of keypoints from two images.
 
         // imshow("Result_SIFT", Result_SIFT);
-        // imwrite("/home/autonav/feature_ws/Matching_SIFT.jpg", Result_SIFT);
         // cv::waitKey(1);
 
 
@@ -104,7 +81,6 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         }
 
         videoWriter << Result_SIFT;
-        // good_matches.clear();
 
     }
 
