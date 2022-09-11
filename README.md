@@ -8,4 +8,4 @@ ubuntu 20.04
 
 ROS noetic
 
-opencv 4.2.0
+opencv 4.4.0
