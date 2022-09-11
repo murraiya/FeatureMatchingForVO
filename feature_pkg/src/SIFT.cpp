@@ -18,6 +18,9 @@
 #include <opencv2/features2d.hpp>
 #include <opencv2/xfeatures2d.hpp>
 
+#include "wholeprocess.hpp"
+
+
 
 using namespace std;
 
@@ -33,12 +36,10 @@ cv::VideoWriter videoWriter;
 vector<cv::KeyPoint> TargetKeypoints, ReferenceKeypoints;
 cv::Mat TargetDescriptor, ReferDescriptor;
 
-cv::Ptr<cv::Feature2D> sift = cv::SIFT::create(500);
+cv::Ptr<cv::Feature2D> sift = cv::SIFT::create(100);
 cv::Ptr<cv::DescriptorMatcher> Matcher_SIFT = cv::BFMatcher::create(cv::NORM_L2, true);			// Brute-Force matcher create method
 
 vector<cv::DMatch> matches;	// Class for matching keypoint descriptors.
-int cnt = 0;
-
 
 void ImgSubCallback(const sensor_msgs::Image raw_img){
     cout<<"SIFT: subscribed"<<endl;

@@ -91,7 +91,7 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "raw_ORB_feature_matching_node");
     ros::NodeHandle nh;
     
-    ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 10, ImgSubCallback);
+    ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 1, ImgSubCallback);
     
     if(ros::ok())
         ros::spin();
