@@ -42,12 +42,13 @@ void processing(cv::Mat&);
 
 
 void ImgSubCallback(const sensor_msgs::Image raw_img){
+    cout<<"ORB: image subscribed callback"<<endl;
     cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(raw_img, sensor_msgs::image_encodings::BGR8);
     
     if(cv_ptr->image.empty())
-        cout<<"NO IMG NO IMG NO IMG"<<endl;
+        cout<<"ORB: sub image is empty"<<endl;
 
-    Target_image = cv_ptr->image; // 눌렀을 때의 해당 프레임을 Target image으로 선택
+    Target_image = cv_ptr->image; 
     cv::cvtColor(Target_image, Target_gray_image, cv::COLOR_RGB2GRAY);
         
     if(Refer_gray_image.empty()==0)
@@ -71,13 +72,18 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         vector<cv::DMatch> good_matches(matches.begin(), matches.begin() + (int)(match_size * 0.5f));
 
         cv::Mat Result_ORB;
-        cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, matches, Result_ORB, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
+        cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, good_matches, Result_ORB, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
         // Draws the found matches of keypoints from two images.
 
         // imshow("Result_ORB", Result_ORB);
-        cv::waitKey(1);
+        // cv::waitKey(1);
 
+        if(Result_ORB.empty()==1){
+            cout<<"ORB: cannot write video"<<endl;
+        }
         videoWriter << Result_ORB;
+
+        good_matches.clear();
 
     }
 

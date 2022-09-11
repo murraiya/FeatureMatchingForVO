@@ -40,10 +40,11 @@ int cnt = 0;
 
 
 void ImgSubCallback(const sensor_msgs::Image raw_img){
+    cout<<"SIFT image subscribed callback"<<endl;
     cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(raw_img, sensor_msgs::image_encodings::BGR8);
     
     if(cv_ptr->image.empty())
-        cout<<"NO IMG NO IMG NO IMG"<<endl;
+        cout<<"SIFT: sub image is empty"<<endl;
 
     // Refer image에 대해 keypoint 찾은 거 보고 싶으면 주석 해제
     /*cv::Mat sift_refer_result;
@@ -95,10 +96,13 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
 
         // imshow("Result_SIFT", Result_SIFT);
         // imwrite("/home/autonav/feature_ws/Matching_SIFT.jpg", Result_SIFT);
-        cv::waitKey(1);
+        // cv::waitKey(1);
+        if(Result_SIFT.empty()==1){
+            cout<<"ORB: cannot write video"<<endl;
+        }
         videoWriter << Result_SIFT;
+        
 
-        // cout<<Result_SIFT.size()<<endl;
     }
 
     Refer_gray_image=Target_gray_image.clone();

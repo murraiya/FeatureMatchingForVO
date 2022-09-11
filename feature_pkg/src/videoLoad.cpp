@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
 		
 		if (img.empty())
 		{
-			printf("empty image");
+			cout<<"image read empty"<<endl;
 		}
 
 		sensor_msgs::Image ros_img_msg;
@@ -43,7 +43,7 @@ int main(int argc, char** argv) {
 		cvImg.toImageMsg(ros_img_msg);
         
 		raw_image_pub.publish(ros_img_msg);
-		cout<<"published"<<endl;
+		
 	}
     return 0;
 }
