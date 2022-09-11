@@ -33,13 +33,10 @@ cv::VideoWriter videoWriter;
 vector<cv::KeyPoint> TargetKeypoints, ReferenceKeypoints;
 cv::Mat TargetDescriptor, ReferDescriptor;
 
-cv::Ptr<cv::Feature2D> orb = cv::ORB::create(10);
-cv::Ptr<cv::DescriptorMatcher> Matcher_ORB = cv::BFMatcher::create(cv::NORM_HAMMING);			// Brute-Force matcher create method
+cv::Ptr<cv::Feature2D> orb = cv::ORB::create(100);
+cv::Ptr<cv::DescriptorMatcher> Matcher_ORB = cv::BFMatcher::create(cv::NORM_HAMMING, true);			// Brute-Force matcher create method
 
 vector<cv::DMatch> matches;	// Class for matching keypoint descriptors.
-int cnt = 0;
-void processing(cv::Mat&);
-
 
 void ImgSubCallback(const sensor_msgs::Image raw_img){
     cout<<"ORB: subscribed"<<endl;
@@ -68,8 +65,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         Matcher_ORB->match(TargetDescriptor, ReferDescriptor, matches);	// Find the best match for each descriptor from a query set.
 
         sort(matches.begin(), matches.end());
-        const int match_size = matches.size();
-        vector<cv::DMatch> good_matches(matches.begin(), matches.begin() + (int)(match_size * 0.5f));
+        vector<cv::DMatch> good_matches(matches.begin(), matches.begin() + 50);
 
         cv::Mat Result_ORB;
         cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, good_matches, Result_ORB, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
@@ -79,15 +75,10 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         // cv::waitKey(1);
 
         if(Result_ORB.empty()==1){
-
         cout<<"match fail"<<endl;
-
-
         }
-
         videoWriter << Result_ORB;
         good_matches.clear();
-
     }
 
     Refer_gray_image=Target_gray_image.clone();
@@ -103,7 +94,7 @@ int main(int argc, char** argv) {
     ros::init(argc, argv, "ORB_feature_matching_node");
     ros::NodeHandle nh;
     
-    ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 1, ImgSubCallback);
+    ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 10, ImgSubCallback);
     
     if(ros::ok())
         ros::spin();
