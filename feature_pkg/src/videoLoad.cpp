@@ -33,17 +33,23 @@ int main(int argc, char** argv) {
 			cout<<"load finish"<<endl;
 		}
 
-		sensor_msgs::Image ros_img_msg;
-		
-		std_msgs::Header header; // empty header
-		header.seq = 1; // user defined counter
-		header.stamp = ros::Time::now(); // time
+		else{ //pub only when img is not empty, without this u get useless rosmsg
 
-		cv_bridge::CvImage cvImg = cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, img);
-		cvImg.toImageMsg(ros_img_msg);
-        
-		raw_image_pub.publish(ros_img_msg);
-		cout<<"published"<<endl;
+			sensor_msgs::Image ros_img_msg;
+		
+			std_msgs::Header header; // empty header
+			header.seq = 1; // user defined counter
+			header.stamp = ros::Time::now(); // time
+
+			cv_bridge::CvImage cvImg = cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, img);
+			cvImg.toImageMsg(ros_img_msg);
+			
+			raw_image_pub.publish(ros_img_msg);
+			cout<<"published"<<endl;
+
+		}
+
+		
 	}
     return 0;
 }

@@ -59,9 +59,8 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         // cv::Mat sift_refer_result;
         // cv::drawKeypoints(Refer_gray_image, ReferenceKeypoints, sift_refer_result);
         // imshow("Result_sift_refer_result", sift_refer_result);
-        // cout << "ORB를 선택하셨습니다. 해당 이미지를 Target image으로 선택합니다.\n\n";
         
-        // Target image에 대해 feature 뽑기
+        //feature 뽑기
         orb->detectAndCompute(Target_gray_image, cv::Mat(), TargetKeypoints, TargetDescriptor);// detects keypoints and computes the descriptors
         orb->detectAndCompute(Refer_gray_image, cv::Mat(), ReferenceKeypoints, ReferDescriptor);// detects keypoints and computes the descriptors
 
@@ -79,6 +78,13 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         // imshow("Result_ORB", Result_ORB);
         // cv::waitKey(1);
 
+        if(Result_ORB.empty()==1){
+
+        cout<<"match fail"<<endl;
+
+
+        }
+
         videoWriter << Result_ORB;
         good_matches.clear();
 
@@ -92,7 +98,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
 int main(int argc, char** argv) {
     cout<<"! ORB !"<<endl;
 
-    videoWriter.open("/media/autonav/SJ_SSD/Matching_ORB.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1);
+    videoWriter.open("/media/autonav/SJ_SSD/Matching_ORB.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
 
     ros::init(argc, argv, "ORB_feature_matching_node");
     ros::NodeHandle nh;

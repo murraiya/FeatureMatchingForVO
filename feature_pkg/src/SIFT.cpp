@@ -40,6 +40,7 @@ int cnt = 0;
 
 
 void ImgSubCallback(const sensor_msgs::Image raw_img){
+    cout<<"SIFT: subscribed"<<endl;
     cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(raw_img, sensor_msgs::image_encodings::BGR8);
     
     if(cv_ptr->image.empty())
@@ -96,6 +97,12 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         // imshow("Result_SIFT", Result_SIFT);
         // imwrite("/home/autonav/feature_ws/Matching_SIFT.jpg", Result_SIFT);
         // cv::waitKey(1);
+
+
+        if(Result_SIFT.empty()==1){
+            cout<<"match fail"<<endl;
+        }
+
         videoWriter << Result_SIFT;
 
         // cout<<Result_SIFT.size()<<endl;
@@ -107,7 +114,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
 int main(int argc, char** argv) {
     cout<<"! SIFT !"<<endl;
 
-    videoWriter.open("/media/autonav/SJ_SSD/Matching_SIFT.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1);
+    videoWriter.open("/media/autonav/SJ_SSD/Matching_SIFT.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
 
     ros::init(argc, argv, "SIFT_feature_matching_node");
     ros::NodeHandle nh;

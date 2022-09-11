@@ -1,0 +1,17 @@
+<launch>
+<!-- feature matching with SIFT method and making result video -->
+<!--패키지 명, type => excutable file, cpp파일에 init node명 -->
+
+  <node pkg="feature_pkg" type="videoLoad" name="video_load_node" output="screen" >
+  </node>
+
+
+  <!-- <node pkg="feature_pkg" type="ORB" name="ORB_feature_matching_node" output="screen" >
+  </node> -->
+
+
+  <node pkg="feature_pkg" type="SIFT" name="SIFT_feature_matching_node" output="screen" >
+  </node>
+
+
+</launch>
