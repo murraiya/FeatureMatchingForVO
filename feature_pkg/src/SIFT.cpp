@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
     ros::NodeHandle nh;
     
 
-    ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 1, ImgSubCallback);
+    ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 10, ImgSubCallback);
     
 
     if(ros::ok())
