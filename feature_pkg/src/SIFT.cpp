@@ -94,6 +94,8 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
     }
 
     Refer_gray_image=Target_gray_image.clone();
+    cout<<"SIFT: subscribed_FIN"<<endl;
+
 }
 
 int main(int argc, char** argv) {
