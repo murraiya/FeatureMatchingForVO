@@ -92,7 +92,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
 int main(int argc, char** argv) {
     cout<<"! ORB !"<<endl;
 
-    videoWriter.open("/media/autonav/SJ_SSD/Matching_ORB.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
+    videoWriter.open("/media/autonav/SJ_SSD/Matching_ORB_itisnotforpaper.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
 
     ros::init(argc, argv, "ORB_feature_matching_node");
     ros::NodeHandle nh;
