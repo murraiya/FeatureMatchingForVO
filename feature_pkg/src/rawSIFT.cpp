@@ -90,7 +90,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
 int main(int argc, char** argv) {
     cout<<"! SIFT !"<<endl;
 
-    videoWriter.open("/media/autonav/SJ_SSD/Matching_SIFT_raw.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
+    videoWriter.open("/media/autonav/SJ_SSD/Matching_SIFT_raw_itisnotforpaper.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
 
     ros::init(argc, argv, "raw_SIFT_feature_matching_node");
     ros::NodeHandle nh;
