@@ -1,7 +1,7 @@
-#include "wholeprocess.hpp"
+#include "feature_pkg/wholeprocess.hpp"
 
 
-int gettingH(){
+int gettingPose(){
     for( size_t i = 0; i < good_matches.size(); i++ )
     {
         //-- Get the keypoints from the good matches
