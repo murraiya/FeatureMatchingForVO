@@ -19,12 +19,20 @@
 using namespace cv;
 using namespace std;
 
+cv::Mat E;
+cv::Mat R, t;
 
-cv::Mat H;
-std::vector<Point2f> obj;
-std::vector<Point2f> scene;
+float data[]={
+    1356,    0,      941,
+    0,       1354,   597,
+    0,       0,      1      };
 
-int gettingPose();
+cv::Mat intrinsic=cv::Mat(3, 3, CV_32F, data);
+
+std::vector<Point2f> beforept;
+std::vector<Point2f> afterpt;
+
+int gettingPose(vector<cv::KeyPoint> keypoints_before, vector<cv::KeyPoint> keypoints_after, vector<cv::DMatch> good_matches);
 
 
 

@@ -48,11 +48,15 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         Matcher_ORB->match(TargetDescriptor, ReferDescriptor, matches);	// Find the best match for each descriptor from a query set.
 
         sort(matches.begin(), matches.end());
-        vector<cv::DMatch> good_matches(matches.begin(), matches.begin() + 50);
+        vector<cv::DMatch> good_matches(matches.begin(), matches.begin() + 20);
 
         cv::Mat Result_ORB;
         cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, good_matches, Result_ORB, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
         // Draws the found matches of keypoints from two images.
+
+        gettingPose(ReferenceKeypoints, TargetKeypoints, good_matches);
+
+
 
         // imshow("Result_ORB", Result_ORB);
         // cv::waitKey(1);
@@ -60,7 +64,7 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         if(Result_ORB.empty()==1){
         cout<<"match fail"<<endl;
         }
-        videoWriter << Result_ORB;
+        // videoWriter << Result_ORB;
         good_matches.clear();
     }
 
@@ -74,9 +78,9 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
 int main(int argc, char** argv) {
     cout<<"! ORB !"<<endl;
 
-    videoWriter.open("/media/autonav/SJ_SSD/Matching_ORB_itisnotforpaper.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
+    // videoWriter.open("/media/autonav/SJ_SSD/Matching_ORB_itisnotforpaper.avi", cv::VideoWriter::fourcc('M', 'P', 'E', 'G'), 50, cv::Size(3840,1200), 1); //u can modify framerate
 
-    ros::init(argc, argv, "ORB_feature_matching_node");
+    ros::init(argc, argv, "ORB_and_Pose_getting_node");
     ros::NodeHandle nh;
     
     ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 10, ImgSubCallback);

@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
     ros::NodeHandle nh;
 	ros::Publisher raw_image_pub = nh.advertise<sensor_msgs::Image>("/raw_image", 1);
 
-	VideoCapture cap("/media/autonav/SJ_SSD/forFeatureMatching.avi");
+	VideoCapture cap("/media/suji/SJ_SSD/forFeatureMatching.avi");
 	if (!cap.isOpened())
 		{ printf("Can't open the camera"); }
 

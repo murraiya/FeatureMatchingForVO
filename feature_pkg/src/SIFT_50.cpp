@@ -63,7 +63,6 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         // imwrite("/home/autonav/feature_ws/Matching_SIFT.jpg", Result_SIFT);
         // cv::waitKey(1);
 
-
         if(Result_SIFT.empty()==1){
             cout<<"match fail"<<endl;
         }
