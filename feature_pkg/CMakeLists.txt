@@ -121,7 +121,7 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  # include
+  include
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   
@@ -138,20 +138,17 @@ include_directories(
 add_executable(videoLoad src/videoLoad.cpp)
 target_link_libraries(videoLoad ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}) #(new_lib_file_name/need to link include)
 
+# add_executable(rawORB src/rawORB.cpp)
+# target_link_libraries(rawORB ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
-# add_executable(videoSubVisual src/videoSubVisual.cpp)
-# target_link_libraries(videoSubVisual ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+# add_executable(rawSIFT src/rawSIFT.cpp)
+# target_link_libraries(rawSIFT ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
-
-add_executable(rawORB src/rawORB.cpp)
-target_link_libraries(rawORB ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
+# add_library( )
+# target_link_libraries(ORB ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 add_executable(ORB src/ORB.cpp)
 target_link_libraries(ORB ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
-
-
-add_executable(rawSIFT src/rawSIFT.cpp)
-target_link_libraries(rawSIFT ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
 add_executable(SIFT src/SIFT.cpp)
 target_link_libraries(SIFT ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
