@@ -8,19 +8,20 @@ project(feature_pkg)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 
-SET(OpenCV_DIR /usr/local/include/opencv4)   
+SET(OpenCV_DIR /usr/local/include/opencv4)   #maybe dont need this
 
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   cv_bridge
   sensor_msgs
+  geometry_msgs
   std_msgs
   image_transport
 )
 
 ## System dependencies are found with CMake's conventions
-find_package(OpenCV 4.6.0 REQUIRED)
+find_package(OpenCV 4.6.0 REQUIRED) #absolutely need this
 
 
 ## Uncomment this if the package has a setup.py. This macro ensures

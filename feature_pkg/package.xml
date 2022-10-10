@@ -45,7 +45,7 @@
   <exec_depend>cv_bridge</exec_depend>
   <exec_depend>image_transport</exec_depend>
   <exec_depend>std_msgs</exec_depend>
-
+<!-- geometry_msgs -->
 
 
   <!-- The export tag contains other, unspecified, tags -->

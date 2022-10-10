@@ -1,6 +1,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/image_encodings.h>
 #include <sensor_msgs/Image.h>
+#include <geometry_msgs/Transform.h>
 #include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.h>
 
@@ -18,6 +19,9 @@
  
 using namespace cv;
 using namespace std;
+
+
+geometry_msgs::Transform poseMessage;
 
 cv::Mat E;
 cv::Mat R, t;
