@@ -20,11 +20,23 @@
 using namespace cv;
 using namespace std;
 
+char text[100];
+int fontFace = FONT_HERSHEY_PLAIN;
+double fontScale = 1;
+int thickness = 1;  
+int x;
+int y;
+cv::Point textOrg(10, 50);
+cv::Mat traj=cv::Mat(600, 600, CV_8UC3, Scalar(0));
+
+
+double scale = 1.00;
 
 geometry_msgs::Transform poseMessage;
 
 cv::Mat E;
 cv::Mat R, t;
+cv::Mat R_f, t_f;
 
 float data[]={
     1356,    0,      941,

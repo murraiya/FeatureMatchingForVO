@@ -51,8 +51,8 @@ void ImgSubCallback(const sensor_msgs::Image raw_img){
         vector<cv::DMatch> good_matches(matches.begin(), matches.begin() + 20);
 
         cv::Mat Result_ORB;
-        cout<<"line54beforedrawMatches"<<endl;
-        const int thickness = 300;
+        // cout<<"line54beforedrawMatches"<<endl;
+        // const int thickness = 300;
         cv::drawMatches(Target_gray_image, TargetKeypoints, Refer_gray_image, ReferenceKeypoints, good_matches, Result_ORB, cv::Scalar::all(-1), cv::Scalar(-1), vector<char>(), cv::DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
         // Draws the found matches of keypoints from two images.
 
@@ -84,6 +84,9 @@ int main(int argc, char** argv) {
 
     ros::init(argc, argv, "ORB_and_Pose_getting_node");
     ros::NodeHandle nh;
+    
+    cv::namedWindow("Trajectory", WINDOW_NORMAL);
+    cv::namedWindow("Result_ORB", WINDOW_NORMAL);
     
     ros::Subscriber raw_image_sub = nh.subscribe<sensor_msgs::Image>("/raw_image", 1, ImgSubCallback);
     ros::Publisher pose_pub = nh.advertise<geometry_msgs::Transform>("/pose", 1);

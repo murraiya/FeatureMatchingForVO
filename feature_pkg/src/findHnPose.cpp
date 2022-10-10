@@ -23,27 +23,50 @@ int gettingPose(vector<cv::KeyPoint> keypoints_before, vector<cv::KeyPoint> keyp
 
     // poseMessage.translation=
 
-    // double l = 5;
-    // std::vector<cv::Point2f> pose_points2d;
-    // pose_points2d.push_back(pnp_detection_est.backproject3DPoint(cv::Point3f(0,0,0)));    // axis center
-    // pose_points2d.push_back(pnp_detection_est.backproject3DPoint(cv::Point3f(l,0,0)));    // axis x
-    // pose_points2d.push_back(pnp_detection_est.backproject3DPoint(cv::Point3f(0,l,0)));    // axis y
-    // pose_points2d.push_back(pnp_detection_est.backproject3DPoint(cv::Point3f(0,0,l)));    // axis z
-    // draw3DCoordinateAxes(frame_vis, pose_points2d);     
+    // cv::Mat T = cv::Mat::eye(4, 4, R.type()); // T is 4x4
+    // T( cv::Range(0,3), cv::Range(0,3) ) = R * 1; // copies R into T
+    // T( cv::Range(0,3), cv::Range(3,4) ) = t * 1; // copies t into T
+
+    // T is a 4x4 matrix with the pose of the camera in the object frame
+
+    R_f=R.clone();
+    t_f=t.clone();
+
+    scale = abs(t.at<double>(2));
+
+    cout << "Scale is " << scale << endl;
+
+    if ((scale>0.1)&&(t.at<double>(2) > t.at<double>(0)) && (t.at<double>(2) > t.at<double>(1))) {
+
+      t_f = t_f + scale*(R_f*t);
+      R_f = R*R_f;
+
+    }
+
+    x = int(t_f.at<double>(0)) + 300;
+    y = int(t_f.at<double>(2)) + 100;
+
+
+    cout<<Point(x,y)<<endl;
+
+    cout<<"fuckyouuuuuuuuuuu"<<endl;
+
+
+    //here makes process down 
+    cv::circle(traj, Point(x, y), 1, Scalar(255,0,0), 2);
+    cout<<"PROBLEM? 6666"<<endl;
+
+    rectangle( traj, Point(10, 30), Point(550, 50), CV_RGB(0,0,0), FILLED); //or CV_FILLED
+    
+    
+    // sprintf(text, "Coordinates: x = %02fm y = %02fm z = %02fm", t_f.at<double>(0), t_f.at<double>(1), t_f.at<double>(2));
+    // putText(traj, text, textOrg, fontFace, fontScale, Scalar::all(255), thickness, 8);
+    cout<<"PROBLEM? 7777"<<endl;
+
+    imshow( "Trajectory", traj );
+
+    waitKey(1);
+
 
     return 0;
 }
-
-                                  // draw axes
-
-/*
-def draw_axis(img, R, t, K):
-    
-    rotV, _ = cv2.Rodrigues(R)
-    points = np.float32([[100, 0, 0], [0, 100, 0], [0, 0, 100], [0, 0, 0]]).reshape(-1, 3)
-    axisPoints, _ = cv2.projectPoints(points, rotV, t, K, (0, 0, 0, 0))
-    img = cv2.line(img, tuple(axisPoints[3].ravel()), tuple(axisPoints[0].ravel()), (255,0,0), 3)
-    img = cv2.line(img, tuple(axisPoints[3].ravel()), tuple(axisPoints[1].ravel()), (0,255,0), 3)
-    img = cv2.line(img, tuple(axisPoints[3].ravel()), tuple(axisPoints[2].ravel()), (0,0,255), 3)
-    return img
-*/
